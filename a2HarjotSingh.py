@@ -1,15 +1,9 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
-import librosa.display
-import soundfile
 import os
-
 from glob import glob
 
-import librosa
-import IPython.display as ipd
-
+# Emotion dictionary
 emotions_dict ={
   '01':'neutral',
   '02':'calm',
@@ -21,36 +15,43 @@ emotions_dict ={
   '08':'surprised'
 }
 
+# Load audio files
 audio_files = glob('Audio Data/*/*.wav')
 
 if audio_files:
-    ipd.Audio(audio_files[0])
+    print(f"Playing first audio: {audio_files[0]}")
 else:
     print("No audio files found.")
 
 def load_data():
-    X, y = [], []
+    y = []
     count = 0
     
+    # Extract emotion from file name
     for file in glob("Audio Data/Actor_*/*.wav"):
         file_name = os.path.basename(file)
         emotion = emotions_dict[file_name.split("-")[2]]
-        # features = get_features(file)  # Uncomment when you have feature extraction function
-        # X.append(features)
         y.append(emotion)
         count += 1
         print('\r' + f' Processed {count}/1440 audio samples', end=' ')
     
-    return np.array(X), np.array(y)
+    return np.array(y)
 
-features, emotions = load_data()
+emotions = load_data()
 
-plt.figure(figsize=(35,4))
-plt.subplot(1,3,1)
+fig, ax = plt.subplots(figsize=(15, 8), dpi=100)
+
 emotion_list, count = np.unique(emotions, return_counts=True)
-plt.bar(x=range(8), height=count)
-plt.xticks(ticks=range(8), labels = [emotion for emotion in emotion_list],fontsize=10)
-plt.xlabel('Emotion')
-plt.tick_params(labelsize=10)
-plt.ylabel('Number of Samples')
+
+ax.bar(x=range(len(emotion_list)), height=count, width=0.4)
+
+ax.set_xticks(range(len(emotion_list)))
+ax.set_xticklabels(emotion_list, fontsize=12)
+ax.set_xlabel('Emotion', fontsize=14)
+ax.set_ylabel('Number of Samples', fontsize=14)
+
+plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)  # Adjust margins
+
+plt.tight_layout()
+
 plt.show()
