@@ -1,6 +1,6 @@
-IAT 360: Exploring Artificial Intelligence 
-Harjot Singh
-October 2, 2024
+IAT 360: Exploring Artificial Intelligence \n
+Harjot Singh \n
+October 2, 2024 \n
 
 Graph One (Emotional Balance without my audio):
 ![IAT360A2GraphOne.png](./IAT360A2GraphOne.png)
